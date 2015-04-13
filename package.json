@@ -1,0 +1,16 @@
+{
+  "name": "google-interview",
+  "version": "1.0.0",
+  "description": "prep for my interview by writing cs stuff",
+  "main": "examples.js",
+  "dependencies": {
+    "babel": "^5.0.12",
+    "ascii-tree": "0.1.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node example.js all"
+  },
+  "author": "",
+  "license": "ISC"
+}

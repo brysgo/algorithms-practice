@@ -4,36 +4,62 @@ var asciitree = require('ascii-tree');
 (function() {
   'use strict';
   class BinaryTree {
-    constructor(value, left, right) {
-      Object.assign(this, {
-        value: value,
-        left: left,
-        right: right
-      });
+    constructor(parent) {
+      this.parent = parent
+    }
+
+    _insert(value) {
+      if (this.value === undefined) {
+        this.value = value;
+        return this;
+      } else if (this.value > value) {
+        if (this.left === undefined) this.left = this.buildNode();
+        return this.left._insert(value);
+      } else if (this.value < value) {
+        if (this.right === undefined) this.right = this.buildNode();
+        return this.right._insert(value);
+      }
+
+      return this;
     }
 
     insert(value) {
-      if (this.value === undefined) {
-        this.value = value;
-      } else if (this.value > value) {
-        if (this.left === undefined) this.left = new BinaryTree();
-        this.left.insert(value);
-      } else if (this.value < value) {
-        if (this.right === undefined) this.right = new BinaryTree();
-        this.right.insert(value);
+      return this.root()._insert(value);
+    }
+
+    buildNode() {
+      return new BinaryTree(this);
+    }
+
+    root() {
+      if (this.parent !== undefined) {
+        return this.parent.root();
+      } else {
+        return this;
       }
     }
 
-    depthFirstArray(acc=[]) {
+    depthFirstArray(acc) {
+      if (acc === undefined) {
+        if (this.parent === undefined)
+          acc = [];
+        else
+          return this.root().depthFirstArray();
+      }
       if (this.left !== undefined)
         var leftBit = this.left.depthFirstArray(acc);
-      acc.push(this.value);
+      if (this.value !== undefined)
+        acc.push(this.value);
       if (this.right !== undefined)
         var rightBit = this.right.depthFirstArray(acc);
       return acc;
     }
 
     toString(depth=0) {
+      if (depth == 0 && this.parent !== undefined)
+        return this.root().toString();
+      if (this.value === undefined)
+        return "";
       var prefix = "#";
       for (var i=0; i < depth; ++i) {
         prefix += "#";
@@ -51,24 +77,37 @@ var asciitree = require('ascii-tree');
     }
   }
 
-  utils.exampleSet("BinaryTree", function() {
-    var tree = new BinaryTree();
-    console.log("This is an empty tree: \n", tree.toString());
-    console.log("inserting the number 6");
-    tree.insert(6);
-    console.log("Our new tree: \n", tree.toString());
-    console.log("inserting the numbers 3,5,23,6,8,7,86,32");
-    tree.insert(3);
-    tree.insert(5);
-    tree.insert(23);
-    tree.insert(6);
-    tree.insert(8);
-    tree.insert(7);
-    tree.insert(86);
-    tree.insert(32);
-    console.log("Our new tree: \n", tree.toString());
-    console.log("Depth first search: ", tree.depthFirstArray());
-  });
+  function example(tree) {
+    return function() {
+      console.log("This is an empty tree: \n", tree.toString());
+      console.log("inserting the number 6");
+      tree.insert(6);
+      console.log("Our new tree: \n", tree.toString());
+      console.log("inserting new numbers:",
+        tree.insert(3).value,
+        ",",
+        tree.insert(5).value,
+        ",",
+        tree.insert(23).value,
+        ",",
+        tree.insert(6).value,
+        ",",
+        tree.insert(8).value,
+        ",",
+        tree.insert(7).value,
+        ",",
+        tree.insert(86).value,
+        ",",
+        tree.insert(32).value
+      );
+      console.log("Our new tree: \n", tree.toString());
+      console.log("Depth first search: ", tree.depthFirstArray());
+    }
+  }
+
+  var tree = new BinaryTree();
+  utils.exampleSet("BinaryTree", example(tree));
 
   module.exports = BinaryTree;
+  module.exports.example = example;
 })()

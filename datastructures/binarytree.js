@@ -102,6 +102,9 @@ var asciitree = require('ascii-tree');
       );
       console.log("Our new tree: \n", tree.toString());
       console.log("Depth first search: ", tree.depthFirstArray());
+      console.log("inserting 1-30:");
+      for (var i=1; i<=30; ++i) tree.insert(i);
+      console.log("Our new tree: \n", tree.toString());
     }
   }
 

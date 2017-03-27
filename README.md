@@ -1,5 +1,7 @@
 # Google Interview Practice
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/brysgo/algorithms-practice.svg)](https://greenkeeper.io/)
+
 Since it has been a while since I've explored datastructures and algorithms, 
 I'm implementing the ones I find interesting and/or can use a refresher for.
 

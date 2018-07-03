@@ -4,13 +4,17 @@
   "description": "prep for my interview by writing cs stuff",
   "main": "examples.js",
   "dependencies": {
-    "babel": "^5.0.12",
-    "ascii-tree": "0.1.1"
+    "babel": "^6.0.0",
+    "ascii-tree": "0.1.1",
+    "snyk": "^1.88.0"
   },
   "devDependencies": {},
   "scripts": {
-    "test": "node example.js all"
+    "test": "node example.js all",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "snyk": true
 }
